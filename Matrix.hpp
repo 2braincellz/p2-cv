@@ -37,6 +37,7 @@ void Matrix_init(Matrix* mat, int width, int height);
 //           the end of each line.
 void Matrix_print(const Matrix* mat, std::ostream& os);
 
+
 // REQUIRES: mat points to a valid Matrix
 // EFFECTS:  Returns the width of the Matrix.
 int Matrix_width(const Matrix* mat);
