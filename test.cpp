@@ -1,9 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <sstream>
+
 
 using namespace std;
 
+using std::ostringstream;
 
 struct Matrix {
   int width;
@@ -13,7 +16,6 @@ struct Matrix {
 
 void Matrix_init(Matrix* mat, int width, int height) {
   
-//   assert(width > 0 && height > 0);
   
   mat -> width = width;
   mat -> height = height;
@@ -24,7 +26,6 @@ void Matrix_init(Matrix* mat, int width, int height) {
 
   mat -> data = vec;
 
-//   cout << mat -> data << endl;
 
   // TODO Replace with your implementation!
 }
@@ -35,6 +36,8 @@ void Matrix_print(const Matrix* mat, std::ostream& os) {
     int height = mat -> height;
     int size = width * height;
 
+    os << width << " " << height << endl;
+
     for (int i = 0; i < size ; ++i) {
 
         if (i != 0 && i % width == 0) {
@@ -44,48 +47,165 @@ void Matrix_print(const Matrix* mat, std::ostream& os) {
     }
     
     // ! Could be issue with how intialized vector values are random Example m.data[100]
-    cout << "\n";
+    os << "\n";
   
 }
 
-// int* Matrix_at(Matrix* mat, int row, int column) {
-//   assert(0 <= row && row < mat -> height);
-//   assert(0 <= column && column < mat -> width);
-  
-//   int idx = (row * mat->width) + column;
+int Matrix_width(const Matrix* mat) {
 
-//   int * ptr = &mat -> data[idx];
+  return mat->width;
 
-//   return ptr;
-  
-// }
+}
 
-const int* Matrix_at(const Matrix* mat, int row, int column) {
+int Matrix_height(const Matrix* mat) {
+
+  return mat->height;
+
+}
+
+int* Matrix_at(Matrix* mat, int row, int column) {
   assert(0 <= row && row < mat -> height);
   assert(0 <= column && column < mat -> width);
   
   int idx = (row * mat->width) + column;
 
-  const int * const ptr = &mat -> data[idx];
+  int * ptr = &mat -> data[idx];
 
   return ptr;
   
 }
 
+// const int* Matrix_at(const Matrix* mat, int row, int column) {
+//   assert(0 <= row && row < mat -> height);
+//   assert(0 <= column && column < mat -> width);
+  
+//   int idx = (row * mat->width) + column;
+
+//   const int * const ptr = &mat -> data[idx];
+
+//   return ptr;
+  
+// }
+
+void Matrix_fill(Matrix* mat, int value) {
+
+  int size = Matrix_height(mat) * Matrix_width(mat);
+
+  for (int i = 0; i < size; ++i) {
+    mat->data[i] = value;
+  }
+
+}
+
+void Matrix_fill_border(Matrix* mat, int value) {
+
+  int size = mat->height * mat->width;
+
+  for (int i = 0; i < size; ++i) {
+    if (i % mat->width == 0 || i % mat->width == mat->width - 1) {
+      mat->data[i] = value;
+    }
+    if (i < mat->width || i > (size - mat->width)) {
+      mat->data[i] = value;
+    }
+
+  } 
+}
+
+int Matrix_max(const Matrix* mat) {
+
+  int size = mat->width * mat->height;
+
+  int max = mat->data[0];
+
+  for (int i = 0; i < size; ++i) {
+    if (mat->data[i] > max) {
+      max = mat->data[i];
+    }
+  }
+  
+  return max;
+}
+
+int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
+                                      int column_start, int column_end) {
+    int min_col = column_start;
+
+    int selected_row = row * Matrix_width(mat);
+
+    int min = mat->data[selected_row];
+
+    for (int i = column_start ; i < column_end ; ++i) {
+
+      int idx = selected_row + i;
+
+      if (mat->data[idx] < min) {
+        min = mat->data[idx];
+        min_col = i;
+      }
+        
+
+    }
+
+    return min_col;
+
+}
+
+int Matrix_min_value_in_row(const Matrix* mat, int row,
+                            int column_start, int column_end) {
+
+  int selected_row = row * Matrix_width(mat);
+
+  return mat->data[selected_row + Matrix_column_of_min_value_in_row(mat, row, column_start, column_end)];
+}
 
 
 int main() {
 
-    Matrix m;
+  Matrix mat;
+  Matrix_init(&mat, 1, 1);
 
-    Matrix_init(&m, 5, 2);
+  *Matrix_at(&mat, 0, 0) = 42;
 
-    m.data[2] = 2;
-    m.data[100] = 10;
-    cout << m.data[100] << endl;
-    Matrix_print(&m, cout);
 
-    cout << *Matrix_at(&m, 0, 1) << endl;
+  ostringstream actual;
+  Matrix_print(&mat, actual);
+
+  ostringstream expected;
+  expected << "1 1\n"
+           << "42 \n";
+  cout << actual.str() << endl;
+  cout << expected.str() << endl;
+
+  // ostringstream expected;
+  // expected << "1 1\n"
+  //          << "42 \n";
+  // ostringstream actual;
+  // Matrix_print(&mat, actual);
+  // ASSERT_EQUAL(expected.str(), actual.str())
+
+    // Matrix m;
+
+    // Matrix_init(&m, 20, 20);
+
+    // m.data[2] = 2;
+    // m.data[100] = 10;
+    // cout << m.data[100] << endl;
+
+    // Matrix_fill(&m, 2);
+
+    // Matrix_print(&m, cout);
+
+    // cout << *Matrix_at(&m, 0, 1) << endl;
+
+    // Matrix_fill_border(&m, 3);
+    // Matrix_print(&m, cout);
+
+    // cout << Matrix_max(&m) << endl;
+
+    // cout << Matrix_column_of_min_value_in_row(&m, 2, 0,10) << endl;
+
+    // cout << Matrix_min_value_in_row(&m, 2, 0, 10 ) << endl;
 
     
 }
