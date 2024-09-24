@@ -10,9 +10,6 @@ using namespace std;
 // EFFECTS:  Initializes *mat as a Matrix with the given width and height,
 //           with all elements initialized to 0.
 void Matrix_init(Matrix* mat, int width, int height) {
-  
-  // TODO Replace with your implementation!
-
 
   assert(width > 0 && height > 0);
   
