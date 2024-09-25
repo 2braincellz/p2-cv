@@ -86,8 +86,28 @@ static int squared_difference(Pixel p1, Pixel p2) {
 //           image is computed and written into it.
 //           See the project spec for details on computing the energy matrix.
 void compute_energy_matrix(const Image* img, Matrix* energy) {
-  assert(false); // TODO Replace with your implementation!
-  assert(squared_difference(Pixel(), Pixel())); // TODO delete me, this is here to make it compile
+
+  Matrix_init(energy, img->width, img->height);
+
+  for (int i = 0; i < Matrix_height(energy); ++i) {
+    for (int j = 0; j < Matrix_width(energy); ++j) {
+      if (i != 0 && i != height-1 && j != 0 && j != width-1) {
+
+          Pixel N = Image_get_pixel(img, i-1, j);
+          Pixel S = Image_get_pixel(img, i+1, j);
+          Pixel E = Image_get_pixel(img, i, j-1);
+          Pixel W = Image_get_pixel(img, i, j+1);
+
+          *Matrix_at(energy, i, j) = squared_difference(N, S) + squared_difference(W, E);
+      }
+    }
+  }
+
+  int max = Matrix_max(energy);
+  Matrix_fill_border(energy, max);
+
+  // assert(false); // TODO Replace with your implementation!
+  // assert(squared_difference(Pixel(), Pixel())); // TODO delete me, this is here to make it compile
 }
 
 
@@ -101,7 +121,39 @@ void compute_energy_matrix(const Image* img, Matrix* energy) {
 //           computed and written into it.
 //           See the project spec for details on computing the cost matrix.
 void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
-  assert(false); // TODO Replace with your implementation!
+  
+  Matrix_init(cost, energy->width, energy->height);
+
+  int width = Matrix_width(cost);
+  int height = Matrix_height(cost);
+  
+  for (int c = 0; c < width; ++c ) {
+    *Matrix_at(cost, 0, c) = 0;
+  }
+
+  for (int r = 1; r < height; ++r) {
+    for (int c = 0; c < width; ++c) {
+
+      int energy = *Matrix_at(energy, r, c);
+
+      int costLeft;
+      int costMiddle;
+      int costRight;
+
+      if (c-1 >= 0) {
+        costLeft = *Matrix_at(cost, r-1 c-1);
+      }
+
+      costMiddle = *Matrix_at(cost, r-1, c);
+
+      if (c+1 < width) {
+        costRight = *Matrix_at(cost, r-1, c+1);
+      }
+
+      *Matrix_at(cost, r, c) = energy + min(costLeft, costMiddle, costRight);
+    }
+  }
+  
 }
 
 
@@ -115,7 +167,10 @@ void compute_vertical_cost_matrix(const Matrix* energy, Matrix *cost) {
 //           leftmost one (i.e. with the lowest column number) is used.
 //           See the project spec for details on computing the minimal seam.
 vector<int> find_minimal_vertical_seam(const Matrix* cost) {
-  assert(false); // TODO Replace with your implementation!
+
+  
+
+  // assert(false); // TODO Replace with your implementation!
 }
 
 
