@@ -171,8 +171,8 @@ int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
     int min_col = column_start;
 
     int selected_row = row * Matrix_width(mat);
-
-    int min = mat->data[selected_row];
+  //added column_start to start min at correct index
+    int min = mat->data[selected_row + column_start]; 
 
     for (int i = column_start ; i < column_end ; ++i) {
 
@@ -201,6 +201,6 @@ int Matrix_min_value_in_row(const Matrix* mat, int row,
   int selected_row = row * Matrix_width(mat);
 
   return mat->data[selected_row + Matrix_column_of_min_value_in_row(mat, row, column_start, column_end)];
-
+//Return value at index row + column
 
 }

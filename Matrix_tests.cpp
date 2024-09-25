@@ -32,13 +32,31 @@ TEST(test_fill_border) {
   Matrix_fill(&mat, value);
   Matrix_fill_border(&mat, border_value);
   ostringstream expected;
-  expected << "17 17 17 \n"
+  expected << "3 4\n"
+           << "17 17 17 \n"
            << "17 42 17 \n"
            << "17 42 17 \n"
            << "17 17 17 \n";
   ostringstream actual;
   Matrix_print(&mat, actual);
   ASSERT_EQUAL(expected.str(), actual.str());
+}
+TEST(test_Matrix_column) {
+  Matrix mat;
+  const int value = 42;
+  const int border_value = 17;
+  Matrix_init(&mat, 5, 4);
+  Matrix_fill(&mat, value);
+  Matrix_fill_border(&mat, border_value);
+  ostringstream expected;
+  expected << "5 4\n"
+           << "17 17 17 17 17 \n"
+           << "17 42 42 42 17\n"
+           << "17 42 42 42 17 \n"
+           << "17 17 17 17 17\n";
+  ostringstream actual;
+  Matrix_print(&mat, actual);
+  ASSERT_EQUAL(Matrix_column_of_min_value_in_row(&mat, 1,1,5), 4);
 }
 
 // ADD YOUR TESTS HERE
