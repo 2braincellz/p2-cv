@@ -75,12 +75,13 @@ int Matrix_height(const Matrix* mat) {
 // EFFECTS:  Returns a pointer to the element in the Matrix
 //           at the given row and column.
 int* Matrix_at(Matrix* mat, int row, int column) {
-  assert(0 <= row && row < mat -> height);
-  assert(0 <= column && column < mat -> width);
+  assert(0 <= row && row < Matrix_height(mat));
+  assert(0 <= column && column < Matrix_width(mat));
   
-  int idx = (row * mat->width) + column;
+  int idx = (row * Matrix_width(mat)) + column;
 
-  int * ptr = &mat -> data[idx];
+
+  int *ptr = &mat -> data[idx];
 
   return ptr;
 }
@@ -92,12 +93,12 @@ int* Matrix_at(Matrix* mat, int row, int column) {
 // EFFECTS:  Returns a pointer-to-const to the element in
 //           the Matrix at the given row and column.
 const int* Matrix_at(const Matrix* mat, int row, int column) {
-  assert(0 <= row && row < mat -> height);
-  assert(0 <= column && column < mat -> width);
+  assert(0 <= row && row < Matrix_height(mat));
+  assert(0 <= column && column < Matrix_width(mat));
   
-  int idx = (row * mat->width) + column;
+  int idx = (row * Matrix_width(mat)) + column;
 
-  const int * const ptr = &mat -> data[idx];
+  const int *ptr = &mat -> data[idx];
 
   return ptr;
   

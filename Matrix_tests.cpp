@@ -24,6 +24,22 @@ TEST(test_fill_basic) {
     }
   }
 }
+TEST(test_fill_border) {
+  Matrix mat;
+  const int value = 42;
+  const int border_value = 17;
+  Matrix_init(&mat, 3, 4);
+  Matrix_fill(&mat, value);
+  Matrix_fill_border(&mat, border_value);
+  ostringstream expected;
+  expected << "17 17 17 \n"
+           << "17 42 17 \n"
+           << "17 42 17 \n"
+           << "17 17 17 \n";
+  ostringstream actual;
+  Matrix_print(&mat, actual);
+  ASSERT_EQUAL(expected.str(), actual.str());
+}
 
 // ADD YOUR TESTS HERE
 // You are encouraged to use any functions from Matrix_test_helpers.hpp as needed.
