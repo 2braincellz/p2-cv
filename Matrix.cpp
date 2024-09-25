@@ -35,15 +35,12 @@ void Matrix_init(Matrix* mat, int width, int height) {
 //           by a newline. This means there will be an "extra" space at
 //           the end of each line.
 void Matrix_print(const Matrix* mat, std::ostream& os) {
-    int width = mat -> width;
-    int height = mat -> height;
-    int size = width * height;
+  //You could just call Matrix_width
+    os << Matrix_width(mat) << " " << Matrix_height(mat) << endl;
 
-    os << width << " " << height << endl;
+    for (int i = 0; i < (Matrix_width(mat) * Matrix_height(mat)); ++i) {
 
-    for (int i = 0; i < size ; ++i) {
-
-        if (i != 0 && i % width == 0) {
+        if (i != 0 && i % Matrix_width(mat) == 0) {
             os << "\n";
         }
         os << mat->data[i] << " ";
