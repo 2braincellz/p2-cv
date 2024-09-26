@@ -54,42 +54,17 @@ void Image_init(Image* img, std::istream& is) {
     Matrix_init(&img->blue_channel, width, height);
     Matrix_init(&img->green_channel, width, height);
 
-   /* 
-    vector<int> reds;
-    vector<int> blues;
-    vector<int> greens;
-    */
     assert(stoi(inputs[3]) == MAX_INTENSITY);
     //PPM issue
 
-    /*
-    for (int i = 4; i < width*height; ++i) {
-        
-        if (i % 3 == 1) {
-            reds.push_back(stoi(inputs[i]));
-        }
-        else if (i % 3 == 2) {
-            blues.push_back(stoi(inputs[i]));
-        }
-        else if (i % 3 == 0) {
-            greens.push_back(stoi(inputs[i]));
-        }
-
-    }
-    */
     Pixel p;
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-
             is >> p.r >> p.g >> p.b;
             Image_set_pixel(img, i, j, p);
-            //switched this to count every index
-            *Matrix_at(&img->red_channel, i, j) = reds[idx];
-            *Matrix_at(&img->blue_channel, i, j) = blues[idx];
-            *Matrix_at(&img->green_channel, i, j)= greens[idx];
         }
     }
-
+}
 
 // REQUIRES: img points to a valid Image
 // MODIFIES: os
