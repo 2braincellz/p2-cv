@@ -135,27 +135,25 @@ void Image_fill(Image* img, Pixel color) {
 
 int main() {
  
-//     Image img;
+    Image img;
 
 //   // A very poorly behaved input PPM.
-//   string input = "P3 2 2\t255 255 0 0\n0\n255 0 \n0 0 255 255 255 255 \n";
-//   std::istringstream ss_input(input);
-//   Image_init(&img, ss_input);
+  string input = "P3 2 2\t255 255 0 0\n0\n255 0 \n0 0 255 255 255 255 \n";
+  std::istringstream ss_input(input);
+  Image_init(&img, ss_input);
 
-//   Pixel p = {255,255,255};
 
-//   Image_fill(&img, p);
 
-//   Image_print(&img, cout);
-  Pixel red = {255, 0, 0};
-  Pixel green = {0, 255, 0};
-  Image img;
-  Image_init(&img, 3, 4);
+  Image_print(&img, cout);
+//   Pixel red = {255, 0, 0};
+//   Pixel green = {0, 255, 0};
+//   Image img;
+//   Image_init(&img, 3, 4);
 
-  cout << (Image_width(&img)) << endl;;
-  cout << Image_height(&img) << endl;;
+//   cout << (Image_width(&img)) << endl;;
+//   cout << Image_height(&img) << endl;;
 
-  Image_fill(&img, red);
+//   Image_fill(&img, red);
 //   cout << Image_get_pixel(&img, 2, 2) << endl;;
 
 //   Image_set_pixel(&img, 0, 0, green);

@@ -31,28 +31,60 @@ void Image_init(Image* img, int width, int height) {
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
 
+    vector<string> inputs;
+
     string str;
-    is >> str;
-    is >> str;
-    img->width = stoi(str);
-    is >> str;
-    img->height = stoi(str);
-    Matrix_init(&img->red_channel, img->width, img->height);
-    Matrix_init(&img->green_channel, img->width, img->height);
-    Matrix_init(&img->blue_channel, img->width, img->height);
 
-    //PPM issue
+    while (is >> str) {
+        // cout << str << endl;
+        inputs.push_back(str);
+    }
 
-    Pixel p;
-    is >> str;
-    for (int i = 0; i < img->height; ++i) {
-        for (int j = 0; j < img->width; ++j) {
-            is >> p.r >> p.g >> p.b;
-            Image_set_pixel(img, i, j, p);
+    assert(inputs[0] == "P3");
+    
+    // for (int i = 0; i < inputs.size(); ++i) {
+    //     cout << inputs[i] << " ";
+    // }
+
+    int width = stoi(inputs[1]);
+    int height = stoi(inputs[2]);
+
+    img->width = width;
+    img->height = height;
+
+    Matrix_init(&img->red_channel, width, height);
+    Matrix_init(&img->blue_channel, width, height);
+    Matrix_init(&img->green_channel, width, height);
+
+
+    vector<int> reds;
+    vector<int> blues;
+    vector<int> greens;
+
+    for (size_t i = 4; i < inputs.size(); ++i) {
+        
+        if (i % 3 == 1) {
+            reds.push_back(stoi(inputs[i]));
+        }
+        else if (i % 3 == 2) {
+            blues.push_back(stoi(inputs[i]));
+        }
+        else if (i % 3 == 0) {
+            greens.push_back(stoi(inputs[i]));
         }
 
-
     }
+
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+            int idx = i * height + j;
+            *Matrix_at(&img->red_channel, i, j) = reds[idx];
+            *Matrix_at(&img->blue_channel, i, j) = blues[idx];
+            *Matrix_at(&img->green_channel, i, j)= greens[idx];
+        }
+    }
+
+
 }
 
 // REQUIRES: img points to a valid Image
@@ -107,7 +139,7 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
     int red = *Matrix_at(&img->red_channel, row, column);
     int blue = *Matrix_at(&img->blue_channel, row, column);
     int green = *Matrix_at(&img->green_channel, row, column);
-    Pixel p = {red, blue, green};
+    Pixel p = {red, green, blue};
 
     return p;
 }
