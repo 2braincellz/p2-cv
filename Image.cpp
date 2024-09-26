@@ -57,6 +57,7 @@ void Image_init(Image* img, std::istream& is) {
     vector<int> reds;
     vector<int> blues;
     vector<int> greens;
+    assert(stoi(inputs[3]) == MAX_INTENSITY);
 
     for (int i = 4; i < inputs.size(); ++i) {
         
@@ -72,9 +73,10 @@ void Image_init(Image* img, std::istream& is) {
 
     }
 
-    for (int i = 0; i < width; ++i) {
-        for (int j = 0; j < height; ++j) {
-            int idx = i * height + j;
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            int idx = i * width + j;
+            //switched this to count every index
             *Matrix_at(&img->red_channel, i, j) = reds[idx];
             *Matrix_at(&img->blue_channel, i, j) = blues[idx];
             *Matrix_at(&img->green_channel, i, j)= greens[idx];
