@@ -58,7 +58,7 @@ void Image_init(Image* img, std::istream& is) {
     vector<int> blues;
     vector<int> greens;
     assert(stoi(inputs[3]) == MAX_INTENSITY);
-
+    //PPM issue
     for (int i = 4; i < inputs.size(); ++i) {
         
         if (i % 3 == 1) {
@@ -104,8 +104,9 @@ void Image_print(const Image* img, std::ostream& os) {
     os << img->width << " " << img->height << endl;
     os << "255" << endl;
 
-    for (int i = 0; i < img->width; ++i) {
-        for (int j = 0; j < img->height; ++j) {
+    for (int i = 0; i < img->height; ++i) {
+        for (int j = 0; j < img->width; ++j) {
+        //swapped img->width and img->height
             os << *Matrix_at(&img->red_channel, i, j) << ' ';
             os << *Matrix_at(&img->blue_channel, i, j) << ' ';
             os << *Matrix_at(&img->green_channel, i, j) << ' ';
@@ -132,7 +133,7 @@ int Image_height(const Image* img) {
 //           0 <= column && column < Image_width(img)
 // EFFECTS:  Returns the pixel in the Image at the given row and column.
 Pixel Image_get_pixel(const Image* img, int row, int column) {
-  
+
     int red = *Matrix_at(&img->red_channel, row, column);
     int blue = *Matrix_at(&img->blue_channel, row, column);
     int green = *Matrix_at(&img->green_channel, row, column);
@@ -150,8 +151,8 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
 
     *Matrix_at(&img->red_channel, row, column) = color.r;
-    *Matrix_at(&img->blue_channel, row, column) = color.g;
-    *Matrix_at(&img->green_channel, row, column) = color.b;
+    *Matrix_at(&img->blue_channel, row, column) = color.b;
+    *Matrix_at(&img->green_channel, row, column) = color.g;
 
 }
 
