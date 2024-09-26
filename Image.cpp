@@ -160,11 +160,12 @@ void Image_set_pixel(Image* img, int row, int column, Pixel color) {
 // MODIFIES: *img
 // EFFECTS:  Sets each pixel in the image to the given color.
 void Image_fill(Image* img, Pixel color) {
-    for (int i = 0; i < img->width; ++i) {
-        for (int j = 0; j < img->height; ++j) {
-                *Matrix_at(&img->red_channel, j, i) = color.r;
-                *Matrix_at(&img->blue_channel, j, i) = color.g;
-                *Matrix_at(&img->green_channel, j, i) = color.b;
+    for (int i = 0; i < img->height; ++i) {
+        for (int j = 0; j < img->width; ++j) {
+            //Switched height and width and i and j positions
+                *Matrix_at(&img->red_channel, i, j) = color.r;
+                *Matrix_at(&img->blue_channel, i, j) = color.g;
+                *Matrix_at(&img->green_channel, i, j) = color.b;
         }
     }
 }
