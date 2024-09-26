@@ -110,8 +110,9 @@ void Image_print(const Image* img, std::ostream& os) {
         for (int j = 0; j < img->width; ++j) {
         //swapped img->width and img->height
             os << *Matrix_at(&img->red_channel, i, j) << ' ';
-            os << *Matrix_at(&img->blue_channel, i, j) << ' ';
             os << *Matrix_at(&img->green_channel, i, j) << ' ';
+            os << *Matrix_at(&img->blue_channel, i, j) << ' ';
+
         }
         os << endl;
 
@@ -166,8 +167,8 @@ void Image_fill(Image* img, Pixel color) {
         for (int j = 0; j < img->width; ++j) {
             //Switched height and width and i and j positions
                 *Matrix_at(&img->red_channel, i, j) = color.r;
-                *Matrix_at(&img->blue_channel, i, j) = color.g;
-                *Matrix_at(&img->green_channel, i, j) = color.b;
+                *Matrix_at(&img->green_channel, i, j) = color.g;
+                *Matrix_at(&img->blue_channel, i, j) = color.b;
         }
     }
 }
