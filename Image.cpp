@@ -16,8 +16,9 @@ void Image_init(Image* img, int width, int height) {
   img->width = width;
   img->height = height;
   Matrix_init(&img->red_channel, width, height);
-  Matrix_init(&img->blue_channel, width, height);
   Matrix_init(&img->green_channel, width, height);
+  Matrix_init(&img->blue_channel, width, height);
+ 
 
 }
 
@@ -29,40 +30,28 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
-    vector<string> inputs;
 
     string str;
+    is >> str;
+    is >> str;
+    img->width = stoi(str);
+    is >> str;
+    img->height = stoi(str);
+    Matrix_init(&img->red_channel, img->width, img->height);
+    Matrix_init(&img->green_channel, img->width, img->height);
+    Matrix_init(&img->blue_channel, img->width, img->height);
 
-    while (is >> str) {
-        // cout << str << endl;
-        inputs.push_back(str);
-    }
-
-    assert(inputs[0] == "P3");
-    
-    // for (int i = 0; i < inputs.size(); ++i) {
-    //     cout << inputs[i] << " ";
-    // }
-
-    int width = stoi(inputs[1]);
-    int height = stoi(inputs[2]);
-
-    img->width = width;
-    img->height = height;
-
-    Matrix_init(&img->red_channel, width, height);
-    Matrix_init(&img->blue_channel, width, height);
-    Matrix_init(&img->green_channel, width, height);
-
-    assert(stoi(inputs[3]) == MAX_INTENSITY);
     //PPM issue
 
     Pixel p;
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
+    is >> str;
+    for (int i = 0; i < img->height; ++i) {
+        for (int j = 0; j < img->width; ++j) {
             is >> p.r >> p.g >> p.b;
             Image_set_pixel(img, i, j, p);
         }
+
+
     }
 }
 
