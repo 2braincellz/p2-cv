@@ -52,22 +52,16 @@ void Image_init(Image* img, std::istream& is) {
     vector<int> blues;
     vector<int> greens;
 
-    for (int i = 4; i < inputs.size(); ++i) {
-        
-        if (i % 3 == 1) {
-            reds.push_back(stoi(inputs[i]));
-        }
-        else if (i % 3 == 2) {
-            blues.push_back(stoi(inputs[i]));
-        }
-        else if (i % 3 == 0) {
-            greens.push_back(stoi(inputs[i]));
-        }
+    for (int i = 4; i < inputs.size(); i+=3) {
 
+        reds.push_back(stoi(inputs[i]));
+        greens.push_back(stoi(inputs[i+1]));
+        blues.push_back(stoi(inputs[i+2])); 
+       
     }
 
-    for (int i = 0; i < width; ++i) {
-        for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
             int idx = i * height + j;
             *Matrix_at(&img->red_channel, i, j) = reds[idx];
             *Matrix_at(&img->blue_channel, i, j) = blues[idx];
@@ -84,11 +78,12 @@ void Image_print(const Image* img, std::ostream& os) {
     os << img->width << " " << img->height << endl;
     os << "255" << endl;
 
-    for (int i = 0; i < img->width; ++i) {
-        for (int j = 0; j < img->height; ++j) {
+    for (int i = 0; i < img->height; ++i) {
+        for (int j = 0; j < img->width; ++j) {
             os << *Matrix_at(&img->red_channel, i, j) << ' ';
-            os << *Matrix_at(&img->blue_channel, i, j) << ' ';
             os << *Matrix_at(&img->green_channel, i, j) << ' ';
+            os << *Matrix_at(&img->blue_channel, i, j) << ' ';
+
         }
         os << endl;
 

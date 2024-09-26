@@ -61,29 +61,22 @@ void Image_init(Image* img, std::istream& is) {
     vector<int> blues;
     vector<int> greens;
 
-    for (size_t i = 4; i < inputs.size(); ++i) {
-        
-        if (i % 3 == 1) {
-            reds.push_back(stoi(inputs[i]));
-        }
-        else if (i % 3 == 2) {
-            blues.push_back(stoi(inputs[i]));
-        }
-        else if (i % 3 == 0) {
-            greens.push_back(stoi(inputs[i]));
-        }
+    for (size_t i = 4; i < inputs.size(); i+=3) {
 
+        reds.push_back(stoi(inputs[i]));
+        greens.push_back(stoi(inputs[i+1]));
+        blues.push_back(stoi(inputs[i+2])); 
+       
     }
 
-    for (int i = 0; i < width; ++i) {
-        for (int j = 0; j < height; ++j) {
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
             int idx = i * height + j;
             *Matrix_at(&img->red_channel, i, j) = reds[idx];
             *Matrix_at(&img->blue_channel, i, j) = blues[idx];
             *Matrix_at(&img->green_channel, i, j)= greens[idx];
         }
     }
-
 
 }
 
@@ -138,8 +131,9 @@ int Image_height(const Image* img) {
 Pixel Image_get_pixel(const Image* img, int row, int column) {
 
     int red = *Matrix_at(&img->red_channel, row, column);
-    int blue = *Matrix_at(&img->blue_channel, row, column);
     int green = *Matrix_at(&img->green_channel, row, column);
+    int blue = *Matrix_at(&img->blue_channel, row, column);
+
     Pixel p = {red, green, blue};
 
     return p;
@@ -154,8 +148,9 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
 
     *Matrix_at(&img->red_channel, row, column) = color.r;
-    *Matrix_at(&img->blue_channel, row, column) = color.b;
     *Matrix_at(&img->green_channel, row, column) = color.g;
+    *Matrix_at(&img->blue_channel, row, column) = color.b;
+
 
 }
 
