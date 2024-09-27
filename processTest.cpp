@@ -309,3 +309,17 @@ void seam_carve(Image *img, int newWidth, int newHeight) {
    seam_carve_width(img, newWidth);
    seam_carve_height(img, newHeight);
 }
+
+
+int main() {
+     cout << "Testing " << prefix << " remove seam..." << flush;
+
+  Image removed_img = *img;
+  remove_vertical_seam(&removed_img, seam);
+//   write_image(&removed_img, prefix + "_removed" + OUT_PPM_EXT);
+
+//   Image removed_img_correct;
+//   load_image(&removed_img_correct, prefix + "_removed.correct.ppm");
+
+
+}

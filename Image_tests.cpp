@@ -42,4 +42,65 @@ TEST(test_print_basic) {
 // IMPLEMENT YOUR TEST FUNCTIONS HERE
 // You are encouraged to use any functions from Image_test_helpers.hpp as needed.
 
+
+TEST(empty_set) {
+  Image img;
+  
+  ostringstream s;
+  Image_print(&img, s);
+
+  ostringstream correct;
+  correct << "P3\n0 0\n255\n";
+  ASSERT_EQUAL(s.str(), correct.str());
+
+}
+
+TEST(Image_init_to_zero) {
+  Image img;
+  int width = 3;
+  int height = 2;
+
+  Image_init(&img, width, height);
+
+  ostringstream s;
+  Image_print(&img, s);
+
+  ostringstream correct;
+  correct << "P3\n3 2\n255\n";
+  correct << "0 0 0 0 0 0 0 0 0 " << endl;
+  correct << "0 0 0 0 0 0 0 0 0 " << endl;
+
+  ASSERT_EQUAL(s.str(), correct.str());
+}
+
+TEST(Image_dims) {
+  Image img;
+  Image_init(&img, 10, 20);
+
+  ASSERT_EQUAL(img.width, Image_width(&img));
+  ASSERT_EQUAL(img.height, Image_height(&img));
+}
+
+TEST(Image_fill) {
+  Image img;
+  Image_init(&img, 3, 4);
+
+  Pixel p = {255, 0, 120};
+
+  Image_fill(&img, p);
+
+  ostringstream s;
+  Image_print(&img, s);
+
+  ostringstream correct;
+  correct << "P3\n3 4\n255\n";
+  correct << "255 0 120 255 0 120 255 0 120 " << endl;
+  correct << "255 0 120 255 0 120 255 0 120 " << endl;
+  correct << "255 0 120 255 0 120 255 0 120 " << endl;
+  correct << "255 0 120 255 0 120 255 0 120 " << endl;
+
+  ASSERT_EQUAL(s.str(), correct.str());
+}
+
+
 TEST_MAIN() // Do NOT put a semicolon here

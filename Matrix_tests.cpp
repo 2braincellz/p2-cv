@@ -62,4 +62,47 @@ TEST(test_Matrix_column) {
 // ADD YOUR TESTS HERE
 // You are encouraged to use any functions from Matrix_test_helpers.hpp as needed.
 
+TEST(test_Matrix_init) {
+  Matrix mat1;
+  Matrix mat2;
+
+  Matrix_init(&mat1, 2, 3);
+  vector<int> test_data(6);
+
+  mat2.width = 2;
+  mat2.height = 3;
+  mat2.data = test_data;
+
+  Matrix_equal(&mat1, &mat2);
+
+}
+
+
+TEST(test_print) {
+  Matrix mat;
+
+  Matrix_init(&mat, 5, 6);
+
+  *Matrix_at(&mat, 0, 2) = 10;
+
+  ostringstream os;
+  
+  Matrix_print(&mat, os);
+
+  ostringstream expected;
+
+  expected << "5 6" << endl;
+  expected << "0 0 10 0 0 " << endl;
+  expected << "0 0 0 0 0 " << endl;
+  expected << "0 0 0 0 0 " << endl;
+  expected << "0 0 0 0 0 " << endl;
+  expected << "0 0 0 0 0 " << endl;
+  expected << "0 0 0 0 0 " << endl;
+
+
+  ASSERT_EQUAL(os.str(), expected.str());
+
+}
+
+
 TEST_MAIN() // Do NOT put a semicolon here
