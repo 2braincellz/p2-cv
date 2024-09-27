@@ -75,17 +75,17 @@ int* Matrix_at(Matrix* mat, int row, int column) {
   
 }
 
-// const int* Matrix_at(const Matrix* mat, int row, int column) {
-//   assert(0 <= row && row < mat -> height);
-//   assert(0 <= column && column < mat -> width);
+const int* Matrix_at(const Matrix* mat, int row, int column) {
+  assert(0 <= row && row < mat -> height);
+  assert(0 <= column && column < mat -> width);
   
-//   int idx = (row * mat->width) + column;
+  int idx = (row * mat->width) + column;
 
-//   const int * const ptr = &mat -> data[idx];
+  const int * const ptr = &mat -> data[idx];
 
-//   return ptr;
+  return ptr;
   
-// }
+}
 
 void Matrix_fill(Matrix* mat, int value) {
 
@@ -154,9 +154,15 @@ int Matrix_column_of_min_value_in_row(const Matrix* mat, int row,
 int Matrix_min_value_in_row(const Matrix* mat, int row,
                             int column_start, int column_end) {
 
+ assert(mat != nullptr);
+  assert(0 <= row && row < Matrix_height(mat));
+  assert(0 <= column_start && column_end <= Matrix_width(mat));
+  assert(column_start < column_end);
+
   int selected_row = row * Matrix_width(mat);
 
-  return mat->data[selected_row + Matrix_column_of_min_value_in_row(mat, row, column_start, column_end)];
+  // return mat->data[selected_row + Matrix_column_of_min_value_in_row(mat, row, column_start, column_end)];
+  return *Matrix_at(mat, row, Matrix_column_of_min_value_in_row(mat, row, column_start, column_end));
 }
 
 
@@ -165,16 +171,15 @@ int main() {
   Matrix mat;
   Matrix_init(&mat, 1, 1);
 
-  *Matrix_at(&mat, 0, 0) = 42;
+  Matrix_fill_border(&mat,100);
 
-
-  ostringstream actual;
-  Matrix_print(&mat, actual);
-
+  ostringstream os;
+  Matrix_print(&mat, os);
   ostringstream expected;
-  expected << "1 1\n"
-           << "42 \n";
-  cout << actual.str() << endl;
+  expected << "1 1\n";
+  expected << "100\n";
+
+  cout << os.str() << endl;
   cout << expected.str() << endl;
 
   // ostringstream expected;

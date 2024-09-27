@@ -62,8 +62,9 @@ int main(int argc, char * argv[]) {
         return 100;
     }
 
-    seam_carve(&img, Resized_width, Resized_height);
+    Image_print(&img, cout);
 
-    // cout << "Error opening file: " << filename << endl;
-    // return 100;
+    // seam_carve(&img, Resized_width, Resized_height);
+
+
 }

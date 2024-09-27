@@ -31,7 +31,31 @@ void Image_init(Image* img, int width, int height) {
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
 
-    vector<string> inputs;
+    // string ppm;
+    // is >> ppm;
+    // assert(ppm == "P3");
+
+    // string strWidth;
+    // is >> strWidth;
+    // int width = stoi(strWidth);
+
+    // string strHeight;
+    // is >> strHeight;
+    // int height = stoi(strHeight);
+
+    // Matrix_init(&img->red_channel, width, height);
+    // Matrix_init(&img->green_channel, width, height);
+    // Matrix_init(&img->blue_channel, width, height);
+    
+
+    // string img_str
+    // Pixel p;
+    // while (is >> img_str) {
+
+    // }
+
+
+      vector<string> inputs;
 
     string str;
 
@@ -67,11 +91,12 @@ void Image_init(Image* img, std::istream& is) {
             reds.push_back(stoi(inputs[i]));
         }
         else if (i % 3 == 2) {
-            blues.push_back(stoi(inputs[i]));
-        }
-        else if (i % 3 == 0) {
             greens.push_back(stoi(inputs[i]));
         }
+        else if (i % 3 == 0) {
+            blues.push_back(stoi(inputs[i]));
+        }
+
 
     }
 
@@ -79,10 +104,14 @@ void Image_init(Image* img, std::istream& is) {
         for (int j = 0; j < width; ++j) {
             int idx = i * width + j;
             *Matrix_at(&img->red_channel, i, j) = reds[idx];
-            *Matrix_at(&img->blue_channel, i, j) = blues[idx];
             *Matrix_at(&img->green_channel, i, j)= greens[idx];
+            *Matrix_at(&img->blue_channel, i, j) = blues[idx];
         }
     }
+
+    cout << *Matrix_at(&img->red_channel, 0, 1) << endl;
+    cout << *Matrix_at(&img->green_channel, 0, 1) << endl;
+    cout << *Matrix_at(&img->blue_channel, 0, 1) << endl;
 
 
 }
@@ -103,11 +132,11 @@ void Image_init(Image* img, std::istream& is) {
 //           for an example.
 void Image_print(const Image* img, std::ostream& os) {
     os << "P3" << endl;
-    os << img->width << " " << img->height << endl;
+    os << Image_width(img) << " " << Image_height(img)<< endl;
     os << "255" << endl;
 
-    for (int i = 0; i < img->height; ++i) {
-        for (int j = 0; j < img->width; ++j) {
+    for (int i = 0; i < Image_height(img); ++i) {
+        for (int j = 0; j < Image_width(img); ++j) {
         //swapped img->width and img->height
             os << *Matrix_at(&img->red_channel, i, j) << ' ';
             os << *Matrix_at(&img->green_channel, i, j) << ' ';
@@ -154,8 +183,9 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
 void Image_set_pixel(Image* img, int row, int column, Pixel color) {
 
     *Matrix_at(&img->red_channel, row, column) = color.r;
-    *Matrix_at(&img->blue_channel, row, column) = color.b;
     *Matrix_at(&img->green_channel, row, column) = color.g;
+    *Matrix_at(&img->blue_channel, row, column) = color.b;
+
 
 }
 
@@ -163,8 +193,8 @@ void Image_set_pixel(Image* img, int row, int column, Pixel color) {
 // MODIFIES: *img
 // EFFECTS:  Sets each pixel in the image to the given color.
 void Image_fill(Image* img, Pixel color) {
-    for (int i = 0; i < img->height; ++i) {
-        for (int j = 0; j < img->width; ++j) {
+    for (int i = 0; i < Image_height(img); ++i) {
+        for (int j = 0; j < Image_width(img); ++j) {
             //Switched height and width and i and j positions
                 *Matrix_at(&img->red_channel, i, j) = color.r;
                 *Matrix_at(&img->green_channel, i, j) = color.g;

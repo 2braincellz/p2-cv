@@ -4,9 +4,9 @@
 #include <sstream>
 #include <string>
 #include "Matrix.cpp"
+#include <cassert>
 
 using namespace std;
-
 void Image_init(Image* img, int width, int height) {
 
   img->width = width;
@@ -26,6 +26,30 @@ void Image_init(Image* img, int width, int height) {
 //           from the given input stream.
 // NOTE:     See the project spec for a discussion of PPM format.
 void Image_init(Image* img, std::istream& is) {
+
+    // string ppm;
+    // is >> ppm;
+    // assert(ppm == "P3");
+
+    // string strWidth;
+    // is >> strWidth;
+    // int width = stoi(strWidth);
+
+    // string strHeight;
+    // is >> strHeight;
+    // int height = stoi(strHeight);
+
+    // Matrix_init(&img->red_channel, width, height);
+    // Matrix_init(&img->green_channel, width, height);
+    // Matrix_init(&img->blue_channel, width, height);
+    
+
+    // string img_str
+    // Pixel p;
+    // while (is >> img_str) {
+
+    // }
+
 
     vector<string> inputs;
 
@@ -57,22 +81,36 @@ void Image_init(Image* img, std::istream& is) {
     vector<int> blues;
     vector<int> greens;
 
-    for (size_t i = 4; i < inputs.size(); i+=3) {
+    for (size_t i = 4; i < inputs.size(); ++i) {
+        
+        if (i % 3 == 1) {
+            reds.push_back(stoi(inputs[i]));
+        }
+        else if (i % 3 == 2) {
+            greens.push_back(stoi(inputs[i]));
+        }
+        else if (i % 3 == 0) {
+            blues.push_back(stoi(inputs[i]));
+        }
 
-        reds.push_back(stoi(inputs[i]));
-        greens.push_back(stoi(inputs[i+1]));
-        blues.push_back(stoi(inputs[i+2])); 
-       
+
     }
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            int idx = i * height + j;
+            int idx = i * width + j;
             *Matrix_at(&img->red_channel, i, j) = reds[idx];
-            *Matrix_at(&img->blue_channel, i, j) = blues[idx];
             *Matrix_at(&img->green_channel, i, j)= greens[idx];
+            *Matrix_at(&img->blue_channel, i, j) = blues[idx];
         }
     }
+
+    cout << *Matrix_at(&img->red_channel, 0, 1) << endl;
+    cout << *Matrix_at(&img->green_channel, 0, 1) << endl;
+    cout << *Matrix_at(&img->blue_channel, 0, 1) << endl;
+
+
+
 
 }
 
@@ -92,11 +130,11 @@ void Image_init(Image* img, std::istream& is) {
 //           for an example.
 void Image_print(const Image* img, std::ostream& os) {
     os << "P3" << endl;
-    os << img->width << " " << img->height << endl;
+    os << Image_width(img) << " " << Image_height(img)<< endl;
     os << "255" << endl;
 
-    for (int i = 0; i < img->height; ++i) {
-        for (int j = 0; j < img->width; ++j) {
+    for (int i = 0; i < Image_height(img); ++i) {
+        for (int j = 0; j < Image_width(img); ++j) {
         //swapped img->width and img->height
             os << *Matrix_at(&img->red_channel, i, j) << ' ';
             os << *Matrix_at(&img->green_channel, i, j) << ' ';
@@ -129,7 +167,6 @@ Pixel Image_get_pixel(const Image* img, int row, int column) {
     int red = *Matrix_at(&img->red_channel, row, column);
     int green = *Matrix_at(&img->green_channel, row, column);
     int blue = *Matrix_at(&img->blue_channel, row, column);
-
     Pixel p = {red, green, blue};
 
     return p;
@@ -154,16 +191,16 @@ void Image_set_pixel(Image* img, int row, int column, Pixel color) {
 // MODIFIES: *img
 // EFFECTS:  Sets each pixel in the image to the given color.
 void Image_fill(Image* img, Pixel color) {
-    for (int i = 0; i < img->height; ++i) {
-        for (int j = 0; j < img->width; ++j) {
+    for (int i = 0; i < Image_height(img); ++i) {
+        for (int j = 0; j < Image_width(img); ++j) {
             //Switched height and width and i and j positions
                 *Matrix_at(&img->red_channel, i, j) = color.r;
                 *Matrix_at(&img->green_channel, i, j) = color.g;
                 *Matrix_at(&img->blue_channel, i, j) = color.b;
+
         }
     }
 }
-
 int main() {
  
     Image img;
