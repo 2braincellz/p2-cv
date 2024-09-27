@@ -109,11 +109,6 @@ void Image_init(Image* img, std::istream& is) {
         }
     }
 
-    cout << *Matrix_at(&img->red_channel, 0, 1) << endl;
-    cout << *Matrix_at(&img->green_channel, 0, 1) << endl;
-    cout << *Matrix_at(&img->blue_channel, 0, 1) << endl;
-
-
 }
 
 // REQUIRES: img points to a valid Image

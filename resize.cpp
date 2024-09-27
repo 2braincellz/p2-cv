@@ -23,7 +23,6 @@ int main(int argc, char * argv[]) {
     }
 
     ostringstream os;
-
     string word;
     while (fin >> word) {
         os << word << " ";
@@ -32,18 +31,18 @@ int main(int argc, char * argv[]) {
     istringstream ss_input(os.str());
     Image_init(&img, ss_input);
     
-    cout << "arguments: " << argc << endl;
+    // cout << "arguments: " << argc << endl;
+
+
 
     int Resized_width = stoi(argv[3]);
-    
     int Resized_height = Image_height(&img);
 
     if (argc >= 5) {
         Resized_height = stoi(argv[4]);
     }
 
-    cout << Resized_width << endl;
-    cout << Resized_height << endl;
+
 
     //Check Errors
     if (argc != 4 && argc != 5) {
@@ -62,9 +61,17 @@ int main(int argc, char * argv[]) {
         return 100;
     }
 
-    Image_print(&img, cout);
-
-    // seam_carve(&img, Resized_width, Resized_height);
 
 
+    ofstream fout;
+    fout.open(output_file);
+    
+    if (!fout.is_open()) {
+        cout << "Error opening file: " << input_file << endl;
+        return 100;
+    }
+
+    seam_carve(&img, Resized_width, Resized_height);
+    Image_print(&img, fout);
+    
 }
