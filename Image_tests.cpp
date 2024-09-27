@@ -102,5 +102,27 @@ TEST(Image_fill) {
   ASSERT_EQUAL(s.str(), correct.str());
 }
 
+TEST(test_set_pixel_get_pixel) {
+  Image img;
+
+  Image_init(&img, 3, 8);
+
+  Pixel color_p = {65, 78, 90};
+
+  Image_set_pixel(&img, 2, 2, color_p);
+  Pixel_equal(Image_get_pixel(&img, 2, 2), color_p);
+}
+
+TEST(test_Image_fill) {
+  Image img;
+
+  Image_init(&img, 4, 3);
+
+  Pixel pixel_color = {1,2,3};
+  Image_fill(&img, pixel_color);
+
+  Pixel_equal(Image_get_pixel(&img, 2, 1), pixel_color);
+}
+
 
 TEST_MAIN() // Do NOT put a semicolon here

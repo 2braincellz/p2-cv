@@ -20,6 +20,7 @@ int main(int argc, char * argv[]) {
 
     if (!fin.is_open()) {
         cout << "Error opening file: " << input_file << endl;
+        return 1;
     }
 
     ostringstream os;

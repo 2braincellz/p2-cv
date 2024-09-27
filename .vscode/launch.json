@@ -7,7 +7,7 @@
         "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/Image_public_tests.exe",
+        "program": "${workspaceFolder}/Image_tests.exe",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceFolder}",
